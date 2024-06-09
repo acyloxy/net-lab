@@ -29,4 +29,5 @@ void arp_in(buf_t *buf, uint8_t *src_mac);
 void arp_out(buf_t *buf, uint8_t *ip);
 void arp_req(uint8_t *target_ip);
 void arp_resp(uint8_t *target_ip, uint8_t *target_mac);
+void arp_flip_endianness(arp_pkt_t *arp_pkt);
 #endif

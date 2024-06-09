@@ -29,4 +29,5 @@ typedef enum icmp_code
 void icmp_in(buf_t *buf, uint8_t *src_ip);
 void icmp_unreachable(buf_t *recv_buf, uint8_t *src_ip, icmp_code_t code);
 void icmp_init();
+void icmp_flip_endianness(icmp_hdr_t *icmp_hdr);
 #endif

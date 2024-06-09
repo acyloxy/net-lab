@@ -12,6 +12,10 @@
  */
 map_t net_table;
 
+uint8_t net_null_mac[NET_MAC_LEN] = {0, 0, 0, 0, 0, 0};
+
+uint8_t net_broadcast_mac[NET_MAC_LEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+
 /**
  * @brief 网卡MAC地址
  * 
@@ -87,4 +91,25 @@ void net_poll()
 #ifdef ETHERNET
     ethernet_poll();
 #endif
+}
+
+int is_null_mac(uint8_t *mac)
+{
+    return memcmp(mac, net_null_mac, NET_MAC_LEN) == 0;
+}
+
+int is_broadcast_mac(uint8_t *mac)
+{
+    return memcmp(mac, net_broadcast_mac, NET_MAC_LEN) == 0;
+
+}
+
+int is_if_mac(uint8_t *mac)
+{
+    return memcmp(mac, net_if_mac, NET_MAC_LEN) == 0;
+}
+
+int is_if_ip(uint8_t *ip)
+{
+    return memcmp(ip, net_if_ip, NET_IP_LEN) == 0;
 }

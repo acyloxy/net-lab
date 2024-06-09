@@ -15,6 +15,12 @@ void ethernet_in(buf_t *buf)
         return;
     }
     ether_hdr_t *ether_hdr = (ether_hdr_t *) buf->data;
+    int targeted = memcmp(ether_hdr->dst, net_if_mac, NET_MAC_LEN) == 0;
+    int broadcast = memcmp(ether_hdr->dst, ether_broadcast_mac, NET_MAC_LEN) == 0;
+    if (!targeted && !broadcast)
+    {
+        return;
+    }
     buf_remove_header(buf, sizeof(ether_hdr_t));
     net_in(buf, swap16(ether_hdr->protocol16), ether_hdr->src);
 }
@@ -27,14 +33,14 @@ void ethernet_in(buf_t *buf)
  */
 void ethernet_out(buf_t *buf, const uint8_t *mac, net_protocol_t protocol)
 {
-    if (buf->len < 46)
+    if (buf->len < ETHERNET_MIN_TRANSPORT_UNIT)
     {
-        buf_add_padding(buf, 46 - buf->len);
+        buf_add_padding(buf, ETHERNET_MIN_TRANSPORT_UNIT - buf->len);
     }
     buf_add_header(buf, sizeof(ether_hdr_t));
     ether_hdr_t *ether_hdr = (ether_hdr_t *) buf->data;
-    memcpy(ether_hdr->src, net_if_mac, 6);
-    memcpy(ether_hdr->dst, mac, 6);
+    memcpy(ether_hdr->src, net_if_mac, NET_MAC_LEN);
+    memcpy(ether_hdr->dst, mac, NET_MAC_LEN);
     ether_hdr->protocol16 = swap16(protocol);
     driver_send(buf);
 }

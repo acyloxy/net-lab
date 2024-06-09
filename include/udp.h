@@ -30,4 +30,5 @@ void udp_out(buf_t *buf, uint16_t src_port, uint8_t *dst_ip, uint16_t dst_port);
 void udp_send(uint8_t *data, uint16_t len, uint16_t src_port, uint8_t *dst_ip, uint16_t dst_port);
 int udp_open(uint16_t port, udp_handler_t handler);
 void udp_close(uint16_t port);
+void udp_flip_endianness(udp_hdr_t *udp_hdr);
 #endif

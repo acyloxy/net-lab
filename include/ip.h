@@ -27,4 +27,5 @@ typedef struct ip_hdr
 void ip_in(buf_t *buf, uint8_t *src_mac);
 void ip_out(buf_t *buf, uint8_t *ip, net_protocol_t protocol);
 void ip_init();
+void ip_flip_endianness(ip_hdr_t *ip_hdr);
 #endif
